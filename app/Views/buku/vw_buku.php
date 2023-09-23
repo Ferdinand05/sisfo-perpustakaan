@@ -19,9 +19,7 @@ Daftar Buku
                 <th>No</th>
                 <th>Kode Buku</th>
                 <th>Judul Buku</th>
-                <th>Penulis</th>
-                <th>Penerbit</th>
-                <th>Tahun Penerbit</th>
+                <th>Kategori</th>
                 <th>Stok</th>
                 <th>Aksi</th>
             </tr>
@@ -82,15 +80,69 @@ Daftar Buku
                             );
                             listDataBuku();
                         }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status + '\n' + thrownError);
                     }
                 });
             }
         })
 
-
-
     }
 
+    function editBuku(id) {
+        $.ajax({
+            type: "post",
+            url: "/buku/modalEditBuku",
+            data: {
+                id_buku: id
+            },
+            dataType: "json",
+            success: function(response) {
+                $('.viewModalBuku').html(response.data);
+                $('#modalEditBuku').modal('show');
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + '\n' + thrownError);
+            }
+        });
+    }
+
+    function detailBuku(id) {
+        $.ajax({
+            type: "post",
+            url: "/buku/modalDetailBuku",
+            data: {
+                id_buku: id
+            },
+            dataType: "json",
+            success: function(response) {
+                $('.viewModalBuku').html(response.data);
+                $('#modalDetailBuku').modal('show');
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + '\n' + thrownError);
+            }
+        });
+    }
+
+    function sampulBuku(id) {
+        $.ajax({
+            type: "post",
+            url: "/buku/modalSampulBuku",
+            data: {
+                id_buku: id
+            },
+            dataType: "json",
+            success: function(response) {
+                $('.viewModalBuku').html(response.data);
+                $('#modalSampulBuku').modal('show');
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + '\n' + thrownError);
+            }
+        });
+    }
 
 
     $('#btnTambahBuku').click(function(e) {

@@ -7,12 +7,12 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\Model;
 use Config\Services;
 
-class ModelDTBuku extends Model
+class ModelDTKategori extends Model
 {
-    protected $table = "buku";
-    protected $column_order = array('', 'kode_buku', 'judul_buku', 'nama_kategori', 'stok', '');
-    protected $column_search = array('judul_buku', 'penulis_buku', 'penerbit_buku');
-    protected $order = array('judul_buku' => 'ASC');
+    protected $table = "kategori";
+    protected $column_order = array('', 'nama_kategori', '');
+    protected $column_search = array('nama_kategori');
+    protected $order = array('nama_kategori' => 'ASC');
     protected $request;
     protected $db;
     protected $dt;
@@ -22,7 +22,8 @@ class ModelDTBuku extends Model
         parent::__construct();
         $this->db = db_connect();
         $this->request = $request;
-        $this->dt = $this->builder('buku')->join('kategori', 'buku_katid=id_kategori');
+
+        $this->dt = $this->db->table($this->table);
     }
     private function _get_datatables_query()
     {
@@ -63,7 +64,7 @@ class ModelDTBuku extends Model
     }
     public function count_all()
     {
-        $tbl_storage = $this->dt = $this->builder('buku')->join('kategori as k', 'k.id_kategori=buku_katid');
+        $tbl_storage = $this->db->table($this->table);
         return $tbl_storage->countAllResults();
     }
 }

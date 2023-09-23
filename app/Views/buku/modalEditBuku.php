@@ -1,9 +1,9 @@
 <!-- Modal -->
-<div class="modal fade" id="modalTambahBuku" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalEditBuku" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Tambah Buku</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Edit Buku</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -12,23 +12,24 @@
                 <?= form_open('/buku/tambahBuku', ['class' => 'formBuku', 'enctype' => 'multipart/form-data']) ?>
 
                 <div class="form-group">
-                    <label for="kode_buku">Kode Buku</label>
+                    <label for="kode_buku">*Kode Buku</label>
                     <div class="input-group mb-2">
-                        <input type="text" name="kode_buku" id="kode_buku" class="form-control" placeholder="BKS01">
+                        <input type="text" name="kode_buku" id="kode_buku" class="form-control" placeholder="BKS01" value="<?= $buku['kode_buku']; ?>" disabled>
                         <div class="invalid-feedback errorKode">
 
                         </div>
+                        <input type="hidden" value="<?= $buku['id_buku']; ?>" id="id_buku" name="id_buku">
                     </div>
                     <label for="judul_buku">Judul</label>
                     <div class="input-group mb-2">
-                        <input type="text" name="judul_buku" id="judul_buku" class="form-control">
+                        <input type="text" name="judul_buku" id="judul_buku" class="form-control" value="<?= $buku['judul_buku'] ?>">
                         <div class="invalid-feedback errorJudul">
 
                         </div>
                     </div>
                     <label for="penulis">Penulis</label>
                     <div class="input-group mb-2">
-                        <input type="text" name="penulis_buku" id="penulis_buku" class="form-control">
+                        <input type="text" name="penulis_buku" id="penulis_buku" class="form-control" value="<?= $buku['penulis_buku']; ?>">
                         <div class="invalid-feedback errorPenulis">
 
                         </div>
@@ -41,7 +42,7 @@
                     <div class="row">
                         <div class="col-md">
                             <div class="input-group mb-2">
-                                <input type="text" name="penerbit" id="penerbit" class="form-control">
+                                <input type="text" name="penerbit" id="penerbit" class="form-control" value="<?= $buku['penerbit_buku']; ?>">
                                 <div class="invalid-feedback errorPenerbit">
                                 </div>
                             </div>
@@ -50,6 +51,10 @@
                             <select name="kategori_buku" id="kategori_buku" class="form-control">
                                 <option value="" selected disabled>Pilih Kategori</option>
                                 <?php foreach ($kategori as $k) : ?>
+
+                                    <?php if ($k['nama_kategori'] == $selectedKategori) : ?>
+                                        <option value="<?= $k['id_kategori']; ?>" selected><?= $k['nama_kategori']; ?></option>
+                                    <?php endif; ?>
                                     <option value="<?= $k['id_kategori']; ?>"><?= $k['nama_kategori']; ?></option>
                                 <?php endforeach; ?>
                             </select>
@@ -66,13 +71,13 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <input type="text" class="form-control" id="tahun_terbit" name="tahun_terbit" placeholder="2004">
+                            <input type="text" class="form-control" id="tahun_terbit" name="tahun_terbit" placeholder="2004" value="<?= $buku['tahun_penerbit']; ?>">
                             <div class="invalid-feedback errorTahun">
 
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <input type="number" name="stok_buku" id="stok_buku" class="form-control" placeholder="Stok Buku">
+                            <input type="number" name="stok_buku" id="stok_buku" class="form-control" placeholder="Stok Buku" value="<?= $buku['stok']; ?>">
                             <div class="invalid-feedback errorStok">
 
                             </div>
@@ -100,7 +105,7 @@
         e.preventDefault();
         $.ajax({
             type: "post",
-            url: "/buku/tambahBuku",
+            url: "/buku/updateBuku",
             data: {
                 kode_buku: $('#kode_buku').val(),
                 judul_buku: $('#judul_buku').val(),
@@ -108,7 +113,8 @@
                 penerbit: $('#penerbit').val(),
                 tahun_terbit: $('#tahun_terbit').val(),
                 stok_buku: $('#stok_buku').val(),
-                kategori_buku: $('#kategori_buku').val()
+                kategori_buku: $('#kategori_buku').val(),
+                id_buku: $('#id_buku').val()
             },
             dataType: "json",
             success: function(response) {
@@ -154,7 +160,7 @@
                         'success'
                     );
 
-                    $('#modalTambahBuku').modal('hide');
+                    $('#modalEditBuku').modal('hide');
                     listDataBuku();
                 }
 
