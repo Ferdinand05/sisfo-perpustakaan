@@ -74,6 +74,19 @@
                     }
 
                 }
+
+                if (response.sukses) {
+                    $('#modalSampulBuku').modal('hide');
+                    Swal.fire({
+                        title: 'Sweet!',
+                        text: response.sukses,
+                        imageUrl: '/images/' + response.sampul,
+                        imageWidth: 300,
+                        imageHeight: 300,
+                        imageAlt: 'Custom image',
+                    })
+                }
+
             },
             error: function(xhr, ajaxOptions, thrownError) {
                 alert(xhr.status + '\n' + thrownError);

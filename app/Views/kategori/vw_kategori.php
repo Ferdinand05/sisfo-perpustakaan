@@ -80,6 +80,23 @@ Kategori Buku
         })
     }
 
+    function editKategori(id) {
+        $.ajax({
+            type: "post",
+            url: "/kategori/modalEditKategori",
+            data: {
+                id_kategori: id
+            },
+            dataType: "json",
+            success: function(response) {
+                if (response.data) {
+                    $('.viewModalKategori').html(response.data);
+                    $('#modalEditKategori').modal('show');
+                }
+            }
+        });
+    }
+
 
     $('#btnModalKategori').click(function(e) {
         e.preventDefault();

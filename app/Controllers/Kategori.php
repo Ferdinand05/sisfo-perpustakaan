@@ -116,4 +116,63 @@ class Kategori extends BaseController
             return $this->response->setJSON($json);
         }
     }
+
+    public function modalEditKategori()
+    {
+        if ($this->request->isAJAX()) {
+
+            $id_kategori = $this->request->getPost('id_kategori');
+            $kategori = $this->kategoriModel->find($id_kategori);
+            $data = [
+                'kategori' => $kategori
+            ];
+
+            $json = [
+                'data' => view('kategori/modalEditKategori', $data)
+            ];
+
+            return $this->response->setJSON($json);
+        }
+    }
+
+
+    public function updateKategori()
+    {
+        if ($this->request->isAJAX()) {
+            $kategori = $this->request->getPost('kategori');
+            $id_kategori = $this->request->getPost('id_kategori');
+
+            $validation = \Config\Services::validation();
+            $validation->setRules([
+                'namaKategori' => [
+                    'label' => 'Nama Kategori',
+                    'rules' => 'required|is_unique[kategori.nama_kategori,id_kategori,' . $id_kategori . ']',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong!',
+                        'is_unique' => '({value}) - Sudah Digunakan!'
+                    ]
+                ]
+            ]);
+
+            $data = [
+                'namaKategori' => $kategori
+            ];
+
+            if (!$validation->run($data)) {
+                $json = [
+                    'errorKategori' => $validation->getError('namaKategori')
+                ];
+            } else {
+                $this->kategoriModel->update($id_kategori, [
+                    'nama_kategori' => $kategori
+                ]);
+
+                $json = [
+                    'sukses' => 'Kategori Buku berhasil ditambahkan!'
+                ];
+            }
+
+            return $this->response->setJSON($json);
+        }
+    }
 }

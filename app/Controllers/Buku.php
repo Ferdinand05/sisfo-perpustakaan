@@ -430,7 +430,8 @@ class Buku extends BaseController
                 ]);
 
                 $json = [
-                    'sukses' => 'Gambar berhasil di Upload!'
+                    'sukses' => 'Gambar berhasil di Upload!',
+                    'sampul' => $fileSampul
                 ];
             }
             return $this->response->setJSON($json);
