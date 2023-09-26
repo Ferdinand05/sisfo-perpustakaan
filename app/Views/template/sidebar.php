@@ -46,12 +46,19 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item  user-panel">
+                <li class="nav-item">
+                    <a href="<?= base_url('petugas') ?>" class="nav-link">
+                        <i class="fas fa-user-shield nav-icon"></i>
+                        <p>Petugas</p>
+                    </a>
+                </li>
+                <li class="nav-item user-panel">
                     <a href="<?= base_url('anggota') ?>" class="nav-link">
                         <i class="fas fa-users nav-icon"></i>
                         <p>Member</p>
                     </a>
                 </li>
+
                 <li class="nav-header">Management Data</li>
                 <li class="nav-item">
                     <a href="<?= base_url('peminjaman') ?>" class="nav-link">
