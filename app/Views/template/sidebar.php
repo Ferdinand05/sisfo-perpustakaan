@@ -62,8 +62,14 @@
                 <li class="nav-header">Management Data</li>
                 <li class="nav-item">
                     <a href="<?= base_url('peminjaman') ?>" class="nav-link">
-                        <i class="fas fa-exchange-alt nav-icon"></i>
+                        <i class="fas fa-cart-arrow-down nav-icon"></i>
                         <p>Peminjaman</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= base_url('pengembalian') ?>" class="nav-link">
+                        <i class="fas fa-exchange-alt nav-icon"></i>
+                        <p>Pengembalian</p>
                     </a>
                 </li>
             </ul>

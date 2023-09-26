@@ -1,34 +1,35 @@
 <!-- Modal -->
-<div class="modal fade" id="modalTambahPetugas" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalEditPetugas" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Tambah Petugas</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Edit Petugas</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="container">
-                    <?= form_open('/petugas/insertPetugas', ['class' => 'formPetugas']); ?>
+                    <?= form_open('/petugas/updatePetugas', ['class' => 'formEditPetugas']); ?>
                     <div class="form-group">
                         <label for="nama_petugas">Nama Petugas</label>
+                        <input type="hidden" value="<?= $petugas['id_petugas']; ?>" id="id_petugas" name="id_petugas">
                         <div class="input-group">
-                            <input type="text" name="nama_petugas" id="nama_petugas" class="form-control" placeholder="Nama...">
+                            <input type="text" name="nama_petugas" id="nama_petugas" class="form-control" placeholder="Nama..." value="<?= $petugas['nama_petugas']; ?>">
                             <div class="invalid-feedback errorNama"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="telp_petugas">Telepon</label>
                         <div class="input-group">
-                            <input type="text" name="telp_petugas" id="telp_petugas" class="form-control" placeholder="089234571221">
+                            <input type="text" name="telp_petugas" id="telp_petugas" class="form-control" placeholder="089234571221" value="<?= $petugas['no_telp_petugas']; ?>">
                             <div class="invalid-feedback errorTelp"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="alamat_petugas">Alamat Petugas</label>
                         <div class="input-group">
-                            <textarea name="alamat_petugas" id="alamat_petugas" rows="3" class="form-control"></textarea>
+                            <textarea name="alamat_petugas" id="alamat_petugas" rows="3" class="form-control"><?= $petugas['alamat_petugas']; ?></textarea>
                             <div class="invalid-feedback errorAlamat"></div>
                         </div>
                     </div>
@@ -48,15 +49,16 @@
 </div>
 
 <script>
-    $('.formPetugas').submit(function(e) {
+    $('.formEditPetugas').submit(function(e) {
         e.preventDefault();
         $.ajax({
             type: "post",
-            url: "/petugas/insertPetugas",
+            url: "/petugas/updatePetugas",
             data: {
                 nama_petugas: $('#nama_petugas').val(),
                 telp_petugas: $('#telp_petugas').val(),
-                alamat_petugas: $('#alamat_petugas').val()
+                alamat_petugas: $('#alamat_petugas').val(),
+                id_petugas: $('#id_petugas').val()
             },
             dataType: "json",
             success: function(response) {
@@ -86,7 +88,7 @@
                         response.sukses,
                         'success'
                     );
-                    $('#modalTambahPetugas').modal('hide');
+                    $('#modalEditPetugas').modal('hide');
                     listDataPetugas();
                 }
 

@@ -49,6 +49,53 @@ Daftar Petugas Perpustakaan &nbsp; <i class="fa fa-user-shield"></i>
         })
     }
 
+    function editPetugas(id_petugas) {
+        $.ajax({
+            type: "post",
+            url: "/petugas/modalEditPetugas",
+            data: {
+                id_petugas: id_petugas
+            },
+            dataType: "json",
+            success: function(response) {
+                $('.viewModalPetugas').html(response.data);
+                $('#modalEditPetugas').modal('show');
+            }
+        });
+    }
+
+    function hapusPetugas(id_petugas) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Petugas yang dihapus Tidak Bisa Dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Hapus'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "post",
+                    url: "/petugas/hapusPetugas",
+                    data: {
+                        id_petugas: id_petugas
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        Swal.fire(
+                            'Good job!',
+                            response.sukses,
+                            'success'
+                        )
+                        listDataPetugas();
+                    }
+                });
+            }
+        })
+    }
+
+
     $(document).ready(function() {
         listDataPetugas();
 
