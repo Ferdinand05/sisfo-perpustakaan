@@ -42,7 +42,7 @@ class Peminjaman extends BaseController
                 $row = [];
                 $btnEdit = '<button type="button" class="btn btn-primary" onclick="editPeminjaman(\'' . $list->id_peminjaman . '\')"><i class="fa fa-edit"></i></button>';
                 $btnHapus = '<button type="button" class="btn btn-danger" onclick="hapusPeminjaman(\'' . $list->id_peminjaman . '\')"><i class="fa fa-trash-alt"></i></button>';
-                $btnDetail = '<button type="button" class="btn btn-info" onclick="detailPeminjaman(\'' . $list->id_peminjaman . '\')"><i class="fa fa-info-circle"></i></button>';
+                $btnDetail = '<button type="button" class="btn btn-info" id="btnDetailPeminjaman" onclick="detailPeminjaman(\'' . $list->id_peminjaman . '\')"><i class="fa fa-info-circle"></i></button>';
                 $row[] = $no;
                 $row[] = $list->nama_anggota;
                 $row[] = $list->tanggal_pinjam;
@@ -260,6 +260,82 @@ class Peminjaman extends BaseController
             $json = [
                 'success' => 'Data Berhasil Dihapus!'
             ];
+
+            return $this->response->setJSON($json);
+        }
+    }
+
+    public function showModalDetail()
+    {
+        if ($this->request->isAJAX()) {
+            $id_peminjaman = $this->request->getPost('id_peminjaman');
+
+            $peminjaman = $this->modelPeminjaman->find($id_peminjaman);
+            $modelBuku = new ModelBuku();
+            $modelAnggota = new ModelAnggota();
+            $buku = $modelBuku->find($peminjaman['id_buku']);
+            $anggota = $modelAnggota->find($peminjaman['id_anggota']);
+
+            $data = [
+                'peminjaman' => $peminjaman,
+                'buku' => $buku,
+                'anggota' => $anggota
+            ];
+
+            $json = [
+                'data' => view('peminjaman/modalDetail', $data)
+            ];
+
+
+            return $this->response->setJSON($json);
+        }
+    }
+
+    public function modalEdit()
+    {
+        if ($this->request->isAJAX()) {
+            $id_peminjaman = $this->request->getPost('id_peminjaman');
+
+            $peminjaman = $this->modelPeminjaman->find($id_peminjaman);
+            $modelBuku = new ModelBuku();
+            $buku = $modelBuku->find($peminjaman['id_buku']);
+            $modelPetugas = new ModelPetugas();
+            $petugas = $modelPetugas->find($peminjaman['id_petugas']);
+            $allPetugas = $modelPetugas->findAll();
+
+            $data = [
+                'peminjaman' => $peminjaman,
+                'buku' => $buku,
+                'selectedPetugas' => $petugas,
+                'allPetugas' => $allPetugas
+            ];
+
+            $json = [
+                'data' => view('peminjaman/modalEdit', $data)
+            ];
+
+            return $this->response->setJSON($json);
+        }
+    }
+
+    public function editPeminjaman()
+    {
+        if ($this->request->isAJAX()) {
+            $tgl_pengembalian = $this->request->getPost('tgl_pengembalian');
+            $id_buku = $this->request->getPost('id_buku');
+            $id_petugas = $this->request->getPost('id_petugas');
+            $id_peminjaman = $this->request->getPost('id_peminjaman');
+
+            $this->modelPeminjaman->update($id_peminjaman, [
+                'tanggal_kembali' => $tgl_pengembalian,
+                'id_buku' => $id_buku,
+                'id_petugas' => $id_petugas
+            ]);
+
+            $json = [
+                'success' => 'Data Peminjaman Berhasil Di Update!'
+            ];
+
 
             return $this->response->setJSON($json);
         }

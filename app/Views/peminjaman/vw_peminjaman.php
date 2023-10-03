@@ -91,6 +91,38 @@ Peminjaman Buku
         })
     }
 
+    function detailPeminjaman(id_peminjaman) {
+        $.ajax({
+            type: "post",
+            url: "/peminjaman/showModalDetail",
+            data: {
+                id_peminjaman: id_peminjaman
+            },
+            dataType: "json",
+            success: function(response) {
+                $('.viewModalPeminjaman').html(response.data);
+                $('#modalDetailPeminjaman').modal('show');
+            }
+        });
+    }
+
+
+    function editPeminjaman(id_peminjaman) {
+        $.ajax({
+            type: "post",
+            url: "/peminjaman/modalEdit",
+            data: {
+                id_peminjaman: id_peminjaman
+            },
+            dataType: "json",
+            success: function(response) {
+                $('.viewModalPeminjaman').html(response.data);
+                $('#modalEditPeminjaman').modal('show');
+            }
+        });
+    }
+
+
 
 
     $('#btnModalPinjam').click(function(e) {
@@ -116,6 +148,9 @@ Peminjaman Buku
             }
         });
     });
+
+
+
 
     $(document).ready(function() {
         listDataPeminjaman();

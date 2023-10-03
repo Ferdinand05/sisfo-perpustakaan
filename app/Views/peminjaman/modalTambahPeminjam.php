@@ -105,7 +105,7 @@
                         <div class="col-md">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <button type="submit" class="btn btn-warning btn-block">Submit</button>
+                                    <button type="submit" class="btn btn-warning btn-block" id="btnAddPeminjam">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -167,6 +167,14 @@
                                 id_petugas: $('#petugas-pinjam').val()
                             },
                             dataType: "json",
+                            beforeSend: function() {
+                                $('#btnAddPeminjam').prop('disabled', true);
+                                $('#btnAddPeminjam').html('<i class="fa fa-spinner fa-spin"></i>');
+                            },
+                            complete: function() {
+                                $('#btnAddPeminjam').prop('disabled', false);
+                                $('#btnAddPeminjam').html('Submit');
+                            },
                             success: function(response) {
                                 if (response.success) {
                                     Swal.fire({
