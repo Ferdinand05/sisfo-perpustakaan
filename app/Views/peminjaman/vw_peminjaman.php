@@ -11,13 +11,13 @@ Peminjaman Buku
 
 <?= $this->section('content'); ?>
 <dvi class="container-fluid">
-    <table class="table table-bordered table-hover dataTable dtr-inline collapsed" style="width: 100%;" id="tablePeminjaman">
+    <table class=" table table-bordered table-hover dataTable dtr-inline collapsed" style="width: 100%;" id="tablePeminjaman">
         <thead class="bg-dark">
             <tr>
-                <th style="width: 5%;">No.</th>
+                <th>No.</th>
                 <th>Nama</th>
-                <th style="width:15%;">Tanggal Peminjaman</th>
-                <th style="width: 15%;">Tanggal Pengembalian</th>
+                <th style="width:14%;">Tanggal Peminjaman</th>
+                <th style="width: 14%;">Tanggal Jatuh Tempo</th>
                 <th>Judul Buku</th>
                 <th>Petugas</th>
                 <th>Aksi</th>

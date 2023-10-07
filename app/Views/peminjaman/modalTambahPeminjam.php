@@ -187,6 +187,15 @@
                                     $('#modalTambahPeminjam').modal('hide');
                                     listDataPeminjaman();
                                 }
+
+                                if (response.error) {
+                                    Swal.fire(
+                                        'Oopss',
+                                        response.error,
+                                        'error'
+                                    )
+                                }
+
                             }
                         });
 

@@ -172,8 +172,8 @@ class Peminjaman extends BaseController
             foreach ($lists as $list) {
                 $no++;
                 $row = [];
-                $btnSelect = '<button type="button" class="btn btn-dark" onclick="selectBuku(\'' . $list->id_buku . '\')"><i class="fas fa-mouse-pointer"></i></button>';
-                $btnDetail = '<button type="button" class="btn btn-info" onclick="detailBuku(\'' . $list->id_buku . '\')"><i class="fa fa-info-circle"></i></button>';
+                $btnSelect = '<button type="button" class="btn btn-dark btn-sm" title="Pilih Buku" onclick="selectBuku(\'' . $list->id_buku . '\')"><i class="fas fa-mouse-pointer"></i></button>';
+                $btnDetail = '<button type="button" class="btn btn-info btn-sm" onclick="detailBuku(\'' . $list->id_buku . '\')"><i class="fa fa-info-circle"></i></button>';
                 $row[] = $no;
                 $row[] = strtoupper($list->kode_buku);
                 $row[] = $list->judul_buku;
@@ -223,6 +223,18 @@ class Peminjaman extends BaseController
             $id_buku = $this->request->getPost('id_buku');
             $id_anggota = $this->request->getPost('id_member');
             $id_petugas = $this->request->getPost('id_petugas');
+
+            $modelBuku = new ModelBuku();
+            $buku = $modelBuku->find($id_buku);
+
+            if ($buku['stok']  <= 1) {
+                $json = [
+                    'error' => 'Stok Buku Tidak Mencukupi, Tersisa : ' . $buku['stok']
+                ];
+
+                return $this->response->setJSON($json);
+            }
+
 
             $tgl_kembali = date('Y-m-d', strtotime(strval($durasi_pinjam), strtotime(strval($tgl_peminjam))));
 
