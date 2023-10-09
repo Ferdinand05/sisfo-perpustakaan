@@ -78,7 +78,7 @@
                         <div class="form-group">
                             <label for="denda">Denda</label>
                             <div class="input-group">
-                                <input type="number" name="denda" id="denda" class="form-control" value="<?= $pengembalian['denda']; ?>">
+                                <input type="number" name="denda" id="denda" class="form-control" value="<?= $pengembalian['denda']; ?>" disabled>
                             </div>
                         </div>
                     </div>
